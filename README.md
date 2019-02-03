@@ -1,4 +1,3 @@
-counterRest API Documentation
 Introduction
 The API is built to cater to multiple parallel threads and increment a number field in the database corresponding to each thread.
 
