@@ -2,26 +2,35 @@ package com.project.counter.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This class acts as the DTO which is mapped to the table 'number' in the
+ * database
+ * 
+ * @author Pankaj
+ *
+ */
 @Component
 @Entity
-@Table(name="number" )
+@Table(name = "number")
 public class Count {
-	
+	/**
+	 * This parameter is mapped to the 'id' field of the database
+	 */
 	@Id
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="num")
+
+	/**
+	 * This field is mapped to the counter field i.e 'num' in the database
+	 */
+	@Column(name = "num")
 	private int num;
 
-	
 	public int getId() {
 		return id;
 	}
@@ -42,7 +51,5 @@ public class Count {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	
-	
 
 }

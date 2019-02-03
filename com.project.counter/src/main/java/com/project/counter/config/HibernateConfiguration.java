@@ -1,6 +1,5 @@
 package com.project.counter.config;
 
-
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -17,47 +16,78 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * This class contains the configuration for hibernate ORM
+ * 
+ * @author Pankaj
+ *
+ */
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "com.project.counter" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 
-    @Autowired
-    private Environment environment;
+	/**
+	 * This parameter contains the depending variable environment required by the
+	 * sesison factory
+	 */
+	@Autowired
+	private Environment environment;
 
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.project.counter.model" });
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
-     }
-	
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
-        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-        return dataSource;
-    }
-    
-    private Properties hibernateProperties() {
-        Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-        return properties;        
-    }
-    
+	/**
+	 * This method provides the configuration to the session factory element
+	 * 
+	 * @return This returns configured session factory
+	 */
 	@Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory s) {
-       HibernateTransactionManager txManager = new HibernateTransactionManager();
-       txManager.setSessionFactory(s);
-       return txManager;
-    }
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(new String[] { "com.project.counter.model" });
+		sessionFactory.setHibernateProperties(hibernateProperties());
+		return sessionFactory;
+	}
+
+	/**
+	 * This method configures the datasource needed for the JDBC connection
+	 * 
+	 * @return This returns configured datasource
+	 */
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
+		dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+		dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+		return dataSource;
+	}
+
+	/**
+	 * This method sets the Properties property of the Hibernate framework
+	 * 
+	 * @return the configured properties
+	 */
+	private Properties hibernateProperties() {
+		Properties properties = new Properties();
+		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
+		properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
+		properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+		return properties;
+	}
+
+	/**
+	 * 
+	 * @param s The session Factory parameter which is set to the transaction
+	 *          manager
+	 * @return transaction manager of the hibernate framework
+	 */
+	@Bean
+	@Autowired
+	public HibernateTransactionManager transactionManager(SessionFactory s) {
+		HibernateTransactionManager txManager = new HibernateTransactionManager();
+		txManager.setSessionFactory(s);
+		return txManager;
+	}
 }
