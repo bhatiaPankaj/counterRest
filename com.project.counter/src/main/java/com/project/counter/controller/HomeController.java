@@ -44,13 +44,10 @@ public class HomeController {
 	 *                                 underlying layers
 	 */
 	@RequestMapping(value = "/incrementcounter", method = RequestMethod.GET)
-	public synchronized String incrementcounter() throws CounterServiceException {
+	public  String incrementcounter() throws CounterServiceException {
 		log.info("inside incrementcounter controller ");
-		int currentCount = counterService.getCounter();
-		int updatedCount = currentCount + 1;
-		counterService.addCounter(updatedCount);
-		log.info("controller: newNum is " + "\n" + updatedCount);
-		return "success for number " + updatedCount;
+		counterService.incrementCounter();
+		return "success for number " ;
 	}
 
 }

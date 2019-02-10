@@ -39,29 +39,15 @@ public class CounterService {
 	 * This method calls the underlying dao layer to fetch the existing counter
 	 * value
 	 * 
-	 * @return It returns the integer existing in the database
 	 * @throws CounterServiceException It is the custom exception thrown at this
 	 *                                 level.
 	 */
-	public int getCounter() throws CounterServiceException {
+	public void incrementCounter() throws CounterServiceException {
 		log.info("inside getCounter Service ");
-		int numNow;
-		numNow = counterDao.getCounter();
+		counterDao.incrementCounter();
 		log.info("exiting getCounter Service ");
-		return numNow;
 
 	}
 
-	/**
-	 * This method underlying dao layer to add the incremented number to the databse
-	 * 
-	 * @param num It takes in the value of the incremented counter
-	 * @throws CounterServiceException It is the custom exception thrown in case of
-	 *                                 error at this level
-	 */
-	public void addCounter(int num) throws CounterServiceException {
-		log.info("inside addCounter Service ");
-		counterDao.incrementCounter(num);
-	}
 
 }

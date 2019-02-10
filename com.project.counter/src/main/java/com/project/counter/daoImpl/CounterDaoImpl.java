@@ -3,6 +3,7 @@ package com.project.counter.daoImpl;
 
 import org.apache.log4j.Logger;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,26 +47,13 @@ public class CounterDaoImpl implements CounterDao {
 	 * this method interacts with the database to fetch the existing counter and
 	 * throws CounterDaoException if some error comes up
 	 */
-	public int getCounter() throws CounterDaoException {
+	public void incrementCounter() throws CounterDaoException {
 		logger.info("inside getCounter dao ");
 		Session session = this.sessionFactory.getCurrentSession();
-		count = (Count) session.get(Count.class, n, LockMode.PESSIMISTIC_WRITE);
+		SQLQuery query = session.createSQLQuery("update test.number set num=num+1 where id=1");
+		query.executeUpdate();
 		logger.info("exiting getCounter dao ");
-		return count.getNum();
 	}
 
-	/**
-	 * This method puts the incremented counter inside the database and returns the
-	 * CounterDaoException in case of any exception
-	 */
-	public void incrementCounter(int newCounter) throws CounterDaoException {
-		logger.info("inside increementCounter dao ");
-		Session session = this.sessionFactory.getCurrentSession();
-		count = (Count) session.get(Count.class, n, LockMode.PESSIMISTIC_WRITE);
-		count.setNum(newCounter);
-		session.update(count);
-		logger.info("exiting increementCounter dao ");
-
-	}
-
+	
 }
